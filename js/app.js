@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js';
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
-import { getDatabase, ref, set, onDisconnect, onChildAdded, onChildRemoved, onChildChanged } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
+import { getDatabase, ref, set, onDisconnect, onChildAdded, onChildRemoved, onValue, remove, update } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -165,12 +165,17 @@ function getRandomSafeSpot() {
 
   function attemptGrabCoin(x, y) {
     const key = getKeyString(x, y);
+    const coinRef = ref(database, `coins/${key}`);
+    console.log(players[playerId].coins, " check coins")
+    console.log(key)
+    console.log(coins[key], " check coins exist")
     if (coins[key]) {
-      // Remove this key from data, then uptick Player's coin count
-      ref(database, `coins/${key}`).remove();
+      // Remove this key from data, then uptick Player's coin count            
+      remove(ref(database, `coins/${key}`));      
+      delete coins[key];
       update(playerRef, {
-        coins: players[playerId].coins + 1,
-      })
+        coins: players[playerId].coins + 1
+      })      
     }
   }
 
@@ -203,7 +208,7 @@ function getRandomSafeSpot() {
     const allPlayersRef = ref(database, `players`);
     const allCoinsRef = ref(database, `coins`);
 
-    onChildChanged(allPlayersRef, (snapshot) => {
+    onValue(allPlayersRef, (snapshot) => {
       //Fires whenever a change occurs
       players = snapshot.val() || {};
       Object.keys(players).forEach((key) => {
@@ -291,7 +296,7 @@ function getRandomSafeSpot() {
     playerNameInput.addEventListener("change", (e) => {
       const newName = e.target.value || createName();
       playerNameInput.value = newName;
-      playerRef.update({
+      update(playerRef, {
         name: newName
       })
     })
