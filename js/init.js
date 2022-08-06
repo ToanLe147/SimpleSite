@@ -1,4 +1,9 @@
 // Function run itself
 (function() {
-    console.log("workking!!!")
+    
+    const overworld = new Overworld({
+        element: document.querySelector('.game-container')
+    });    
+    overworld.init()    
+
 })();
