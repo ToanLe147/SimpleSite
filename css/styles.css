@@ -8,7 +8,11 @@ html, body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 800px;
-    height: 350px;
-    background-color: white;    
+    width: 816px;
+    height: 384px;
+    background-color: white;        
+}
+
+.game-container canvas {
+    image-rendering: pixelated;
 }
