@@ -8,29 +8,7 @@ html, body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
-    height: 320px;
+    width: 800px;
+    height: 350px;
     background-color: white;    
-}
-
-.game-joystick-left {
-    border: 2px solid black;
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 350px;
-    background-color: orange;
-}
-
-.game-joystick-right {
-    border: 2px solid black;
-    position: absolute;
-    top: 50%;
-    left: 90%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 350px;
-    background-color: blue;
 }
