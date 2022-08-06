@@ -19,8 +19,8 @@ class Overworld {
         }
         CommonRoom.src = "../assets/CommonRoom.png";
 
-        const x = 2
-        const y = 2
+        const x = 8
+        const y = 4
         // Add player to the game
         const Player = new Image();
         Player.onload = () => {
@@ -31,11 +31,11 @@ class Overworld {
                 32,
                 64,       
                 x * 48,
-                y * 48,
-                32,
-                64         
+                y * 48 - 40,
+                48,
+                80         
             )
         }
-        Player.src = "../assets/actors/boy.png"
+        Player.src = "../assets/actors/girl.png"
     }    
 }

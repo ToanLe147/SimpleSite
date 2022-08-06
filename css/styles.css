@@ -3,7 +3,7 @@ html, body {
 }
 
 .game-canvas {
-    border: 5px solid black;
+    border: 2px solid black;
     position: absolute;
     top: 50%;
     left: 50%;
