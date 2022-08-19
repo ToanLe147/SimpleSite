@@ -9,11 +9,14 @@
   </head>
   <body>
 
-    <div class="game-container">
-      <canvas class="game-canvas" width="816" height="384"></canvas>
-    </div>        
-    
-    <script src="./js/Overworld.js"></script>
-    <script src="./js/init.js"></script>
+    <div id="game-container">
+    </div>
+
+    <canvas id="game-canvas" class="game-art"></canvas>
+    <img src="./assets/actors/Eskimo/Walk.png" id="playerImage" class="game-art">
+    <img src="./assets/CommonRoom.png" id="backgroundImage" class="game-art">
+
+        
+    <script type="module" src="./js/init.js"></script>
   </body>
 </html>

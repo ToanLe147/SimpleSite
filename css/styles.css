@@ -2,17 +2,23 @@ html, body {
     background: linear-gradient(180deg, #64BEFF -50%, #6e96ff 69.71%, #2a65ff 150%);
 }
 
-.game-canvas {
-    border: 2px solid black;
+.game-art {     
+    image-rendering: pixelated;
+}
+
+#game-container {   
+    background-color: white 
+}
+
+#game-canvas {    
+    background-color: blue;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 816px;
-    height: 384px;
-    background-color: white;        
+    transform: translate(-50%,-50%);
+    border: 3px solid white;
 }
 
-.game-container canvas {
-    image-rendering: pixelated;
+#playerImage, #backgroundImage {
+    display: none;
 }
