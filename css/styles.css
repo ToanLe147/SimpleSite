@@ -22,3 +22,28 @@ html, body {
 #playerImage, #backgroundImage {
     display: none;
 }
+
+.myButton {
+	box-shadow: 2px 6px 0px 0px #ab1616;
+	background:linear-gradient(to bottom, #ff7a7a 5%, #e33939 100%);
+	background-color:#ff7a7a;
+	border-radius:23px;
+	border:2px solid #c23434;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	font-weight:bold;
+	padding:10px 7px;
+	text-decoration:none;
+	text-shadow:0px 2px 0px #cc5454;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #e33939 5%, #ff7a7a 100%);
+	background-color:#e33939;
+}
+.myButton:active {
+	position:relative;
+	top:3px;
+}
