@@ -10,16 +10,17 @@
   <body>
 
     <div id="game-container">
-    </div>
+      <canvas id="game-canvas" class="game-art"></canvas>
+      <img src="./assets/actors/Eskimo/Walk.png" id="playerImage" class="game-art">
+      <img src="./assets/CommonRoom.png" id="backgroundImage" class="game-art">    
 
-    <canvas id="game-canvas" class="game-art"></canvas>
-    <img src="./assets/actors/Eskimo/Walk.png" id="playerImage" class="game-art">
-    <img src="./assets/CommonRoom.png" id="backgroundImage" class="game-art">    
+      <a href="#" id="btn_up" class="moveBtn">Up</a>
+      <a href="#" id="btn_down" class="moveBtn">Down</a>
+      <a href="#" id="btn_left" class="moveBtn">Left</a>
+      <a href="#" id="btn_right" class="moveBtn">Right</a>
 
-    <a href="#" id="btn_up" class="myButton">Up</a>
-    <a href="#" id="btn_down" class="myButton">Down</a>
-    <a href="#" id="btn_left" class="myButton">Left</a>
-    <a href="#" id="btn_right" class="myButton">Right</a>
+      <a href="#" class="actionBtn">Action</a>
+    </div>    
         
     <script type="module" src="./js/init.js"></script>
   </body>

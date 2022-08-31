@@ -7,15 +7,18 @@ html, body {
 }
 
 #game-container {   
-    background-color: white 
+    background-color: white;
+    position: relative;
+    width: 816px;
+    height: 384px;    
 }
 
-#game-canvas {    
+#game-canvas {
     background-color: blue;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%,-50%); */
     border: 3px solid white;
 }
 
@@ -23,7 +26,7 @@ html, body {
     display: none;
 }
 
-.myButton {
+.moveBtn {
 	box-shadow: 2px 6px 0px 0px #ab1616;
 	background:linear-gradient(to bottom, #ff7a7a 5%, #e33939 100%);
 	background-color:#ff7a7a;
@@ -38,12 +41,57 @@ html, body {
 	padding:10px 7px;
 	text-decoration:none;
 	text-shadow:0px 2px 0px #cc5454;
+    position:absolute;
 }
-.myButton:hover {
+.moveBtn:hover {
 	background:linear-gradient(to bottom, #e33939 5%, #ff7a7a 100%);
 	background-color:#e33939;
 }
-.myButton:active {
+.moveBtn:active {
+	position:relative;
+	top:3px;
+}
+#btn_up {
+    left:10%;
+    top:68%;    
+}
+#btn_down {
+    left:8.7%;
+    top:83%;    
+}
+#btn_left {
+    left:2.5%;
+    top:74%;    
+}
+#btn_right {
+    left:16%;
+    top:74%;    
+}
+
+.actionBtn {
+	box-shadow: 0px 10px 14px -7px #276873;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(3.9px);    
+	/* background-color:transparent; */
+	border-radius:8px;
+    border:3px solid #29668f;
+	display:inline-block;
+	cursor:pointer;
+	color:#22419c;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:13px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+    position:absolute;
+    left:80%;
+    top:80%;    
+}
+.actionBtn:hover {
+	background-color:transparent;
+}
+.actionBtn:active {
 	position:relative;
 	top:3px;
 }
