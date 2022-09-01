@@ -1,27 +1,37 @@
 <html>
-  <head>
-    <title>Public Space</title>    
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+<head>
+    <title>Public Space</title>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css" type="text/css">
     <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
 
     <div id="game-container">
-      <canvas id="game-canvas" class="game-art"></canvas>
-      <img src="./assets/actors/Eskimo/Walk.png" id="playerImage" class="game-art">
-      <img src="./assets/CommonRoom.png" id="backgroundImage" class="game-art">    
+        <canvas id="game-canvas" class="game-art"></canvas>
+        <img src="./assets/actors/Eskimo/Walk.png" id="playerImage" class="game-art">
+        <img src="./assets/CommonRoom.png" id="backgroundImage" class="game-art">
 
-      <a href="#" id="btn_up" class="moveBtn">Up</a>
-      <a href="#" id="btn_down" class="moveBtn">Down</a>
-      <a href="#" id="btn_left" class="moveBtn">Left</a>
-      <a href="#" id="btn_right" class="moveBtn">Right</a>
+        <a href="#" id="btn_up" class="moveBtn">Up</a>
+        <a href="#" id="btn_down" class="moveBtn">Down</a>
+        <a href="#" id="btn_left" class="moveBtn">Left</a>
+        <a href="#" id="btn_right" class="moveBtn">Right</a>
 
-      <a href="#" class="actionBtn">Action</a>
-    </div>    
-        
+        <a href="#" id="btn_action" class="actionBtn">Action</a>
+        <a href="#" onclick="myFunction()" id="btn_exit" class="actionBtn">Exit</a>
+    </div>
+
     <script type="module" src="./js/init.js"></script>
-  </body>
+    <script>
+        function myFunction() {
+            window.ReactNativeWebView.postMessage("Hello!")
+        }
+    </script>
+</body>
+
 </html>
