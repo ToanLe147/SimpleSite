@@ -94,7 +94,7 @@ body {
 
 .actionBtn {
     box-shadow: 0px 10px 14px -7px #276873;       
-    background-color:transparent;
+    background-color:linear-gradient(to bottom, #22419c 5%, #276873 100%);
     border-radius: 8px;
     border: 3px solid #29668f;
     display: inline-block;
@@ -116,9 +116,9 @@ body {
 }
 
 .actionBtn:hover {
-    /* background-color: transparent; */
-	background: linear-gradient(to bottom, #22419c 5%, #276873 100%);
-    background-color: #22419c;
+    background-color: transparent;
+	/* background: linear-gradient(to bottom, #22419c 5%, #276873 100%);
+    background-color: #22419c; */
 }
 
 .actionBtn:active {

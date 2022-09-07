@@ -1,91 +1,140 @@
-window.addEventListener('load', function () {
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js';
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+import { getDatabase, ref, set, onDisconnect, onChildAdded, onChildRemoved, onValue, remove, update } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAQC1IqU-jCKYRxmhOwJ1gXOIHiPHGd8tc",
+  authDomain: "simplesite-d9db1.firebaseapp.com",
+  databaseURL: "https://simplesite-d9db1-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "simplesite-d9db1",
+  storageBucket: "simplesite-d9db1.appspot.com",
+  messagingSenderId: "1022730618259",
+  appId: "1:1022730618259:web:afa846b412ea3c4cb91466"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth = getAuth(app);
+
+let playerId;
+let playerRef;
+let players = {}
+let charactors = {} 
+
+const mapData = {
+    minX: 1,
+    maxX: 16,
+    minY: 2,
+    maxY: 7,
+    blockedSpaces: {
+        "12x4": true,
+        "13x4": true,            
+        "14x4": true,            
+        "1x4": true,            
+        "3x4": true,
+        "1x5": true,            
+        "2x6": true,            
+        "3x5": true,
+        "3x6": true,            
+        "1x6": true,
+    },
+};
+
+function getRandomSafeSpot() {
+    //We don't look things up by key here, so just return an x/y
+    return randomFromArray([
+        { x: 2, y: 2 },
+        { x: 4, y: 2 },
+        { x: 2, y: 5 },        
+        { x: 13, y: 2 },
+        { x: 10, y: 6 },
+        { x: 13, y: 3 },
+        { x: 11, y: 2 },
+        { x: 6, y: 6 },
+        { x: 6, y: 2 },                
+        { x: 6, y: 4 },
+        { x: 9, y: 4 },
+        { x: 11, y: 4 },
+        { x: 15, y: 4 },
+        { x: 15, y: 2 },
+    ]);
+}
+
+function getKeyString(x, y) {
+    return `${x}x${y}`;
+}
+
+function randomFromArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+function isSolid(x, y) {
+    const blockedNextSpace = mapData.blockedSpaces[getKeyString(x, y)];
+    return (
+        blockedNextSpace ||
+        x >= mapData.maxX ||
+        x < mapData.minX ||
+        y >= mapData.maxY ||
+        y < mapData.minY
+    )
+}
+
+auth.onAuthStateChanged((user) => {
+  console.log(user)
+  if (user) {
+    //You're logged in!
+    playerId = user.uid;
+    playerRef = ref(database, `players/${playerId}`);
+
+    // const name = createName();
+    // playerNameInput.value = name;
+
+    const init_pose = getRandomSafeSpot();
+    const x_pos = init_pose.x
+    const y_pos = init_pose.y
+
+    set(playerRef, {
+      id: playerId,
+      // name,
+      direction: "down",
+      charactor: "Eskimo",
+      x_pos,
+      y_pos,      
+    })
+
+    //Remove me from Firebase when I diconnect
+    onDisconnect(playerRef).remove();
+
+    //Begin the game now that we are signed in
+    initGame();
+  } else {
+    //You're logged out.
+  }
+})
+
+signInAnonymously(auth).catch((error) => {
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+  console.log(errorCode, errorMessage);
+});
+
+// window.addEventListener('load', function () {
+function initGame() {
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d')
     canvas.width = 816
-    canvas.height = 384
+    canvas.height = 384     
 
-    let playerId;
-    let playerRef;
-    let players = {}
-    let playerElements = {};
-
-    const mapData = {
-        minX: 0,
-        maxX: 17,
-        minY: 0,
-        maxY: 8,
-        blockedSpaces: {
-            "2x3": true,
-            // "6x3": true,
-            // "7x3": true,
-            // "8x3": true,
-            // "7x4": true,
-            // "2x5": true,
-            // "2x6": true,
-            // "2x7": true,
-            // "4x5": true,
-            // "4x6": true,
-            // "4x7": true,
-            // "16x7": true,
-            // "13x5": true,
-            // "13x6": true,
-            // "14x5": true,
-            // "14x6": true,
-            // "15x6": true,
-            // "15x5": true,
-        },
-    };
-
-    function getRandomSafeSpot() {
-        //We don't look things up by key here, so just return an x/y
-        return randomFromArray([
-            { x: 1, y: 4 },
-            { x: 2, y: 4 },
-            { x: 1, y: 5 },
-            { x: 2, y: 6 },
-            { x: 2, y: 8 },
-            { x: 2, y: 9 },
-            { x: 4, y: 8 },
-            { x: 5, y: 5 },
-            { x: 5, y: 8 },
-            { x: 5, y: 10 },
-            { x: 5, y: 11 },
-            { x: 11, y: 7 },
-            { x: 12, y: 7 },
-            { x: 13, y: 7 },
-            { x: 13, y: 6 },
-            { x: 13, y: 8 },
-            { x: 7, y: 6 },
-            { x: 7, y: 7 },
-            { x: 7, y: 8 },
-            { x: 8, y: 8 },
-            { x: 10, y: 8 },
-            { x: 8, y: 8 },
-            { x: 11, y: 4 },
-        ]);
-    }
-
-    function getKeyString(x, y) {
-        return `${x}x${y}`;
-    }
-
-    function randomFromArray(array) {
-        return array[Math.floor(Math.random() * array.length)];
-    }
-
-    function isSolid(x, y) {
-        const blockedNextSpace = mapData.blockedSpaces[getKeyString(x, y)];
-        return (
-            blockedNextSpace ||
-            x >= mapData.maxX ||
-            x < mapData.minX ||
-            y >= mapData.maxY ||
-            y < mapData.minY
-        )
-    }
+    const allPlayersRef = ref(database, `players`);                
 
     class Player {
-        constructor(gameWidth, gameHeight) {
+        constructor(gameWidth, gameHeight, x_init=0, y_init=0, charactor="Eskimo") {
             this.gameWidth = gameWidth
             this.gameHeight = gameHeight
             this.width = 48
@@ -93,10 +142,10 @@ window.addEventListener('load', function () {
             this.sw = 16
             this.sh = 16
             this.frameX = 0
-            this.frameY = 0
-            this.x = 0
-            this.y = 0
-            this.image = document.getElementById('playerImage')
+            this.frameY = 0            
+            this.x = x_init
+            this.y = y_init            
+            this.image = document.getElementById(`charactor_${charactor}`)
             this.direction = "down"
         }
         draw(context) {
@@ -163,12 +212,23 @@ window.addEventListener('load', function () {
                 this.handleMovePress(0, -1)
             }
             this.moveAnimation()
-            // console.log(this.x, this.y)
+            console.log(this.x, this.y)
         }
     }
 
     class Background {
-
+      constructor(gameWidth, gameHeight) {
+        this.gameWidth = gameWidth
+        this.gameHeight = gameHeight
+        this.image = document.getElementById('backgroundImage');
+        this.x = 0
+        this.y = 0
+        this.width = 816
+        this.height = 384
+      }
+      draw(context) {
+        context.drawImage(this.image, this.x, this.y)
+      }
     }
 
     function handleAction() {
@@ -179,33 +239,48 @@ window.addEventListener('load', function () {
 
     }
 
-    // const input = new InputHandler()
+    onValue(allPlayersRef, (snapshot) => {
+      //Fires whenever a change occurs
+      players = snapshot.val() || {};
+      console.log(players[playerId].x_pos)      
+    })
+
+    onChildAdded(allPlayersRef, (snapshot) => {
+      //Fires whenever a new node is added the tree
+      const addedPlayer = snapshot.val();
+      if (addedPlayer.id === playerId) {        
+        charactors[addedPlayer.id] = new Player(canvas.width, canvas.height, addedPlayer.x_pos, addedPlayer.y_pos, addedPlayer.charactor)
+      }  
+    })
+
     const btn_up = document.getElementById('btn_up')
     const btn_down = document.getElementById('btn_down')
     const btn_left = document.getElementById('btn_left')
-    const btn_right = document.getElementById('btn_right')
-    const player = new Player(canvas.width, canvas.height)
+    const btn_right = document.getElementById('btn_right')                
+    const background = new Background(canvas.width, canvas.height)
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        player.draw(ctx)
+        background.draw(ctx)
+        charactors[playerId].draw(ctx)
 
         // Action
         btn_up.onclick = function () {
-            player.move("Up")
+          charactors[playerId].move("Up")
         }
         btn_down.onclick = function () {
-            player.move("Down")
+          charactors[playerId].move("Down")
         }
         btn_left.onclick = function () {
-            player.move("Left")
+          charactors[playerId].move("Left")
         }
         btn_right.onclick = function () {
-            player.move("Right")
+          charactors[playerId].move("Right")
         }
 
         requestAnimationFrame(animate)
     }
     animate()
+  }
+// })
 
-})
