@@ -84,57 +84,56 @@ function isSolid(x, y) {
     )
 }
 
-auth.onAuthStateChanged((user) => {
-  console.log(user)
-  if (user) {
-    //You're logged in!
-    playerId = user.uid;
-    playerRef = ref(database, `players/${playerId}`);
-
-    // const name = createName();
-    // playerNameInput.value = name;
-
-    const init_pose = getRandomSafeSpot();
-    const x_pos = init_pose.x
-    const y_pos = init_pose.y
-
-    set(playerRef, {
-      id: playerId,
-      // name,
-      direction: "down",
-      charactor: "Eskimo",
-      x_pos,
-      y_pos,      
-    })
-
-    //Remove me from Firebase when I diconnect
-    onDisconnect(playerRef).remove();
-
-    //Begin the game now that we are signed in
-    initGame();
-  } else {
-    //You're logged out.
-  }
-})
-
-signInAnonymously(auth).catch((error) => {
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // ...
-  console.log(errorCode, errorMessage);
-});
-
-// window.addEventListener('load', function () {
-function initGame() {
+window.addEventListener('load', function () {
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d')
     canvas.width = 816
     canvas.height = 384     
 
-    const allPlayersRef = ref(database, `players`);                
+    const allPlayersRef = ref(database, `players`);
+    
+    auth.onAuthStateChanged((user) => {
+      console.log(user)
+      if (user) {
+        //You're logged in!
+        playerId = user.uid;
+        playerRef = ref(database, `players/${playerId}`);
+    
+        // const name = createName();
+        // playerNameInput.value = name;
+    
+        const init_pose = getRandomSafeSpot();
+        const x_pos = init_pose.x
+        const y_pos = init_pose.y
+    
+        set(playerRef, {
+          id: playerId,          
+          direction: "down",
+          charactor: "Eskimo",
+          x_pos,
+          y_pos,      
+        })
+    
+        //Remove me from Firebase when I diconnect
+        onDisconnect(playerRef).remove();
+    
+        //Begin the game now that we are signed in
+        initGame();
+      } else {
+        //You're logged out.
+      }
+    })
+    
+    signInAnonymously(auth).catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+      console.log(errorCode, errorMessage);
+    });
 
+    function initGame() {          
     class Player {
-        constructor(gameWidth, gameHeight, x_init=0, y_init=0, charactor="Eskimo") {
+        constructor(gameWidth, gameHeight, x_init=0, y_init=0, charactor="Eskimo", direction="down") {
             this.gameWidth = gameWidth
             this.gameHeight = gameHeight
             this.width = 48
@@ -146,7 +145,7 @@ function initGame() {
             this.x = x_init
             this.y = y_init            
             this.image = document.getElementById(`charactor_${charactor}`)
-            this.direction = "down"
+            this.direction = direction
         }
         draw(context) {
             // context.fillStyle = 'white'
@@ -237,7 +236,13 @@ function initGame() {
 
     function displayStatusText() {
 
-    }
+    }    
+
+    const btn_up = document.getElementById('btn_up')
+    const btn_down = document.getElementById('btn_down')
+    const btn_left = document.getElementById('btn_left')
+    const btn_right = document.getElementById('btn_right')                
+    const background = new Background(canvas.width, canvas.height)
 
     onValue(allPlayersRef, (snapshot) => {
       //Fires whenever a change occurs
@@ -249,15 +254,9 @@ function initGame() {
       //Fires whenever a new node is added the tree
       const addedPlayer = snapshot.val();
       if (addedPlayer.id === playerId) {        
-        charactors[addedPlayer.id] = new Player(canvas.width, canvas.height, addedPlayer.x_pos, addedPlayer.y_pos, addedPlayer.charactor)
+        charactors[addedPlayer.id] = new Player(canvas.width, canvas.height, addedPlayer.x_pos, addedPlayer.y_pos, addedPlayer.charactor, addedPlayer.direction)
       }  
     })
-
-    const btn_up = document.getElementById('btn_up')
-    const btn_down = document.getElementById('btn_down')
-    const btn_left = document.getElementById('btn_left')
-    const btn_right = document.getElementById('btn_right')                
-    const background = new Background(canvas.width, canvas.height)
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -281,6 +280,6 @@ function initGame() {
         requestAnimationFrame(animate)
     }
     animate()
-  }
-// })
+  }  
+})
 
