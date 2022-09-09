@@ -6,25 +6,30 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/styles.css" type="text/css">    
+    <link rel="stylesheet" href="./css/styles.css" type="text/css">
 </head>
 
 <body>
 
-  <img src="./assets/actors/Eskimo/Walk.png" id="charactor_Eskimo" class="game-art">
-  <img src="./assets/CommonRoom.png" id="backgroundImage" class="game-art">      
-  <div id="game-container">
-    <canvas id="game-canvas" class="game-art"></canvas>      
+    <img src="./assets/actors/Eskimo/Walk.png" id="Eskimo" class="game-art charactor">
+    <img src="./assets/CommonRoom.png" id="backgroundImage" class="game-art">
+    <div id="game-container">
+        <canvas id="game-canvas" class="game-art"></canvas>
 
-    <a href="#" id="btn_up" class="moveBtn">Up</a>
-    <a href="#" id="btn_down" class="moveBtn">Down</a>
-    <a href="#" id="btn_left" class="moveBtn">Left</a>
-    <a href="#" id="btn_right" class="moveBtn">Right</a>
+        <a href="#" id="btn_up" class="moveBtn">Up</a>
+        <a href="#" id="btn_down" class="moveBtn">Down</a>
+        <a href="#" id="btn_left" class="moveBtn">Left</a>
+        <a href="#" id="btn_right" class="moveBtn">Right</a>
 
-    <a href="#" id="btn_action" class="actionBtn">Action</a>
-    <a href="#" onclick="myFunction()" id="btn_exit" class="actionBtn">Exit</a>
-  </div>
-    
+        <a href="#" id="btn_action" class="actionBtn">
+            <img src="../assets/buttons/Button - PS Directional Arrow Left.png" width="20" height="10" />
+        </a>
+        <a href="#" onclick="myFunction()" id="btn_exit" class="actionBtn">Exit</a>
+
+        <!-- <img class="testBtn" src="../assets/buttons/Button - PS Directional Arrow Left.png" /> -->
+        <!-- <img class="testBtn" src="../assets/buttons/Button - PS Directional Arrow Left 2.png" /> -->
+    </div>
+
     <script type="module" src="./js/init.js"></script>
     <script type="module" src="./js/utils.js"></script>
     <script>

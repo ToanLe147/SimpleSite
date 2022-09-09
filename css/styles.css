@@ -23,7 +23,7 @@ body {
     border: 3px solid white;
 }
 
-#charactor_Eskimo,
+.charactor,
 #backgroundImage {
     display: none;
 }
@@ -74,12 +74,12 @@ body {
     text-decoration: none;
     text-shadow: 0px 2px 0px #cc5454;
     position: absolute;
-	/* notSelectable text on button */
-	-webkit-user-select: none; 
-	-webkit-touch-callout: none; 
-	-moz-user-select: none; 
-	-ms-user-select: none; 
-	user-select: none;
+    /* notSelectable text on button */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .moveBtn:hover {
@@ -93,8 +93,8 @@ body {
 }
 
 .actionBtn {
-    box-shadow: 0px 10px 14px -7px #276873;       
-    background-color:linear-gradient(to bottom, #22419c 5%, #276873 100%);
+    box-shadow: 0px 10px 14px -7px #276873;
+    background-color: linear-gradient(to bottom, #22419c 5%, #276873 100%);
     border-radius: 8px;
     border: 3px solid #29668f;
     display: inline-block;
@@ -107,21 +107,33 @@ body {
     text-decoration: none;
     text-shadow: 0px 1px 0px #3d768a;
     position: absolute;
-	/* notSelectable text on button */
-	-webkit-user-select: none; 
-	-webkit-touch-callout: none; 
-	-moz-user-select: none; 
-	-ms-user-select: none; 
-	user-select: none;
+    /* notSelectable text on button */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .actionBtn:hover {
     background-color: transparent;
-	/* background: linear-gradient(to bottom, #22419c 5%, #276873 100%);
-    background-color: #22419c; */
+    /* background: linear-gradient(to bottom, #22419c 5%, #276873 100%); */
+    /* background-color: #22419c; */
 }
 
 .actionBtn:active {
     position: relative;
     top: 3px;
+}
+
+.testBtn {
+    position: absolute;
+    transform: scale(0.2);
+    left: 80%;
+    top: 80%;
+}
+
+.testBtn:hover {
+    /* opacity: 0.2; */
+    content: url("../assets/buttons/Button - PS Directional Arrow Left 2.png");
 }
