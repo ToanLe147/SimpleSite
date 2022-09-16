@@ -24,6 +24,9 @@ const auth = getAuth(app);
 let playerId;
 let playerRef;
 let players = {}
+
+let backgroundRef;
+
 let charactors = {}
 
 const mapData = {
@@ -34,14 +37,10 @@ const mapData = {
     blockedSpaces: {
         "12x4": true,
         "13x4": true,
-        "14x4": true,
-        "1x4": true,
-        "3x4": true,
-        "1x5": true,
-        "2x6": true,
+        "14x4": true,        
+        "3x4": true,                
         "3x5": true,
-        "3x6": true,
-        "1x6": true,
+        "3x6": true,        
     },
 };
 
@@ -91,27 +90,32 @@ window.addEventListener('load', function () {
     canvas.height = 384
 
     const allPlayersRef = ref(database, `players`);
+    const allBackgroundRef = ref(database, `background`)
+
+    backgroundRef = ref(database, `background/CommonRoom`);    
+    set(backgroundRef, {
+      id: 'CommonRoom',      
+    })
 
     auth.onAuthStateChanged((user) => {
         console.log(user)
         if (user) {
             //You're logged in!
             playerId = user.uid;
-            playerRef = ref(database, `players/${playerId}`);
-
-            // const name = createName();
-            // playerNameInput.value = name;
+            playerRef = ref(database, `players/${playerId}`);            
 
             const init_pose = getRandomSafeSpot();
-            const x_pos = init_pose.x
-            const y_pos = init_pose.y
+            const x = init_pose.x
+            const y = init_pose.y
 
             set(playerRef, {
                 id: playerId,
                 direction: "down",
-                charactor: "Eskimo",
-                x_pos,
-                y_pos,
+                charactor: "Princess",
+                chat: false,
+                chat_content: "Hello",
+                x,
+                y,
             })
 
             //Remove me from Firebase when I diconnect
@@ -133,9 +137,10 @@ window.addEventListener('load', function () {
 
     function initGame() {
         class Player {
-            constructor(gameWidth, gameHeight, x_init = 0, y_init = 0, charactor = "Eskimo", direction = "down") {
-                this.gameWidth = gameWidth
-                this.gameHeight = gameHeight
+            constructor(x_init = 0, y_init = 0, charactor = "Eskimo", direction = "down") {
+                this.charactor = charactor                
+                this.gameWidth = canvas.width
+                this.gameHeight = canvas.height
                 this.width = 48
                 this.height = 48
                 this.sw = 16
@@ -143,13 +148,13 @@ window.addEventListener('load', function () {
                 this.frameX = 0
                 this.frameY = 0
                 this.x = x_init
-                this.y = y_init
+                this.y = y_init                
                 this.image = document.getElementById(`${charactor}`)
                 this.direction = direction
+                this.chat = false
+                this.chat_content = "Hello Friend"
             }
             draw(context) {
-                // context.fillStyle = 'white'
-                // context.fillRect(this.x * this.width, this.y * this.height, this.width, this.height)
                 context.drawImage(this.image,
                     this.frameX * this.sw, this.frameY * this.sh, this.sw, this.sh,
                     this.x * this.width, this.y * this.height, this.width, this.height)
@@ -173,7 +178,7 @@ window.addEventListener('load', function () {
                 }
 
                 if (!isSolid(newX, newY)) {
-                    //move to the next space
+                    // move to the next space
                     this.x = newX;
                     this.y = newY;
                 }
@@ -213,6 +218,18 @@ window.addEventListener('load', function () {
                 this.moveAnimation()
                 // console.log(this.x, this.y)
             }
+
+            update() {                
+                set(playerRef, {
+                    id: playerId,
+                    direction: this.direction,
+                    charactor: "Princess",
+                    chat: this.chat,
+                    chat_content: this.chat_content,
+                    x_pos: this.x,
+                    y_pos: this.y,
+                })
+            }
         }
 
         class Background {
@@ -242,26 +259,46 @@ window.addEventListener('load', function () {
         const btn_down = document.getElementById('btn_down')
         const btn_left = document.getElementById('btn_left')
         const btn_right = document.getElementById('btn_right')
+        const btn_action = document.getElementById('btn_action')
         const background = new Background(canvas.width, canvas.height)
 
         onValue(allPlayersRef, (snapshot) => {
             //Fires whenever a change occurs
-            players = snapshot.val() || {};
-            // console.log(players[playerId].x_pos)
+            players = snapshot.val() || {}; 
+            // console.log(players)           
+            Object.keys(charactors).forEach(element => {
+                if (element != playerId) {
+                    charactors[element].x = players[element].x_pos
+                    charactors[element].y = players[element].y_pos
+                    charactors[element].chat = players[element].chat
+                    charactors[element].chat_content = players[element].chat_content
+                    charactors[element].direction = players[element].direction
+                }                
+            });
         })
 
         onChildAdded(allPlayersRef, (snapshot) => {
             //Fires whenever a new node is added the tree
             const addedPlayer = snapshot.val();
-            charactors[addedPlayer.id] = new Player(canvas.width, canvas.height, addedPlayer.x_pos, addedPlayer.y_pos, addedPlayer.charactor, addedPlayer.direction)
+            console.log(addedPlayer)
+            // charactors[addedPlayer.id] = new Player(addedPlayer.x_pos, addedPlayer.y_pos, addedPlayer.charactor, addedPlayer.direction)
+            charactors[addedPlayer.id] = addedPlayer
         })
+
+        onChildRemoved(allPlayersRef, (snapshot) => {
+            const removedKey = snapshot.val().id;            
+            delete charactors[removedKey];
+        })
+
+        function draw() {
+            context.drawImage(this.image,
+                this.frameX * this.sw, this.frameY * this.sh, this.sw, this.sh,
+                this.x * this.width, this.y * this.height, this.width, this.height)
+        }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
-            background.draw(ctx)
-            charactors.array.forEach(element => {
-                element.draw(ctx)
-            });
+            background.draw(ctx)                        
 
             // Action
             btn_up.onclick = function () {
@@ -276,6 +313,14 @@ window.addEventListener('load', function () {
             btn_right.onclick = function () {
                 charactors[playerId].move("Right")
             }
+            btn_action.onclick = function () {
+                charactors[playerId].move("Right")
+            }
+
+            Object.keys(charactors).forEach(element => {
+                charactors[element].draw(ctx)
+                charactors[element].update()
+            });
 
             requestAnimationFrame(animate)
         }
