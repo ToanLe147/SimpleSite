@@ -16,7 +16,7 @@
     <img src="./assets/actors/Princess/Walk.png" id="Princess" class="game-art charactor">
     <img src="./assets/actors/Samurai/Walk.png" id="Samurai" class="game-art charactor">
     <img src="./assets/actors/Cavegirl2/Walk.png" id="Cavegirl2" class="game-art charactor">
-    <img src="./assets/CommonRoom.png" id="backgroundImage" class="game-art">
+    <img src="./assets/scenes/CommonRoom.png" id="CommonRoom" class="game-art">
     <div id="game-container">
         <canvas id="game-canvas" class="game-art"></canvas>                  
 
@@ -29,8 +29,9 @@
         <button id="btn_action" class="actionBtn">&#128493;</button>     
     </div>
 
-    <script type="module" src="./js/init.js"></script>
     <script type="module" src="./js/utils.js"></script>
+    <script type="module" src="./js/init.js"></script>    
+
     <script>
         function myFunction() {
             window.ReactNativeWebView.postMessage("Hello!")
