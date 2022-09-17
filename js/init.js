@@ -58,8 +58,8 @@ window.addEventListener('load', function () {
     const allPlayersRef = ref(database, `players`);
     const allScenesRef = ref(database, `scenes`)
 
-    sceneRef = ref(database, `scenes/CommonRoom`);    
-    set(allScenesRef, scenes["CommonRoom"])
+    // sceneRef = ref(database, `scenes/CommonRoom`);    
+    // set(allScenesRef, scenes["CommonRoom"])
 
     auth.onAuthStateChanged((user) => {
         console.log(user)
