@@ -2,7 +2,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js';
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 import { getDatabase, ref, set, onDisconnect, onChildAdded, onChildRemoved, onValue, remove, update } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
-import { move, getRandomSafeSpot, randomFromArray, getLoadedImage,  } from 'utils.js'
+import { move, getRandomSafeSpot, randomFromArray, getLoadedImage,  } from './utils.js'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
