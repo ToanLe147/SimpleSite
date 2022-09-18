@@ -46,6 +46,7 @@ body {
 }
 
 #btn_chat {
+    background-color: rgba(131, 137, 155, 0.3);
     left: 70%;
     top: 85%;
 }
@@ -69,7 +70,8 @@ body {
 
 .actionBtn {    
     background-color: rgba(255,255,255,0.3);
-    backdrop-filter: blur(2px);  
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);  
     color: black;  
     border: none;
     padding: 5px;
@@ -78,7 +80,7 @@ body {
     width: 50px;
     box-shadow: 0 2px 4px darkslategray;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.07s ease;
     border-radius: 70%;
     position: absolute;
     /* notSelectable text on button */
@@ -107,7 +109,7 @@ body {
     width: 50px;
     box-shadow: 0 2px 4px darkslategray;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.07s ease;
     border-radius: 70%;
     position: absolute;
     /* notSelectable text on button */
@@ -127,8 +129,11 @@ body {
 }
 
 .ChatInput {
-	color: white; 
-	background: rgb(11, 147, 246);	
+	color: black; 
+	background-color: rgba(11, 147, 246, 0.3);
+    /* background-color: rgba(255,255,255,0.3); */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);	
         
     line-height: 24px;    
     padding: 10px 60px;

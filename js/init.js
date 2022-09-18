@@ -114,23 +114,23 @@ window.addEventListener('load', function () {
     });
 
     // Action
-    btn_up.onclick = function () {            
+    btn_up.ontouchend = btn_up.onclick = function () {            
         move("Up", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_down.onclick = function () {
+    btn_down.ontouchend = btn_down.onclick = function () {
         move("Down", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_left.onclick = function () {
+    btn_left.ontouchend = btn_left.onclick = function () {
         move("Left", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_right.onclick = function () {
+    btn_right.ontouchend = btn_right.onclick = function () {
         move("Right", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_chat.onclick = function () {        
+    btn_chat.ontouchend = btn_chat.onclick = function () {        
         if (!players[playerId].chat) {
             chatInput.style.display="inline"
             players[playerId].chat = true
@@ -139,15 +139,15 @@ window.addEventListener('load', function () {
             players[playerId].chat = false
         }                           
     }
-    btn_accept.onclick = function () {
+    btn_accept.ontouchend = btn_accept.onclick = function () {
         if (players[playerId].chat) {            
             players[playerId].chat_content = chatInput.value
-            chatSend.innerHTML = players[playerId].chat_content
-            chatSend.style.display="inline"
             set(playerRef, players[playerId])
+            chatSend.innerHTML = players[playerId].chat_content
+            chatSend.style.display="inline"            
         }
     }
-    btn_deny.onclick = function () {
+    btn_deny.ontouchend = btn_deny.onclick = function () {
         if (players[playerId].chat) {                        
             chatSend.innerHTML = "..."
             chatSend.style.display="none"
