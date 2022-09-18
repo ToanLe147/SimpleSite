@@ -16,10 +16,7 @@ body {
 
 #game-canvas {
     background-color: blue;
-    position: absolute;
-    /* top: 50%; */
-    /* left: 50%; */
-    /* transform: translate(-50%,-50%); */
+    position: absolute;    
     border: 3px solid white;
 }
 
@@ -48,8 +45,20 @@ body {
     top: 77%;
 }
 
-#btn_action {
-    left: 80%;
+#btn_chat {
+    left: 70%;
+    top: 85%;
+}
+
+#btn_accept {
+    background-color: rgba(0,255,0,0.3);
+    left: 83%;
+    top: 85%;
+}
+
+#btn_deny {
+    background-color: rgba(255,0,0,0.3);
+    left: 93%;
     top: 85%;
 }
 
@@ -79,11 +88,9 @@ body {
     -ms-user-select: none;
     user-select: none;    
 }
-
 .actionBtn:not {
     margin-top: 10px;
 }
-
 .actionBtn:active {
     background-color: rgba(255,255,255,1.0);
     box-shadow: 0 0 2px darkslategray;
@@ -110,13 +117,54 @@ body {
     -ms-user-select: none;
     user-select: none;    
 }
-
 .moveBtn:active {
     background-color: #e33939;
     box-shadow: 0 0 2px darkslategray;
     transform: translateY(4px);
 }
-
 .moveBtn:not {
     margin-top: 10px;
+}
+
+.ChatInput {
+	color: white; 
+	background: rgb(11, 147, 246);	
+        
+    line-height: 24px;    
+    padding: 10px 60px;
+    border-radius: 25px;
+
+    position: absolute;
+    left: 30%;
+    top: 85%;
+    
+    display: none;    
+}
+
+.ChatBubble {		        
+    max-width: 255px;
+    word-wrap: break-word;
+    margin-bottom: 12px;
+    line-height: 24px;    
+    padding: 10px 20px;
+    border-radius: 25px;
+    
+    font-family: sans-serif;
+    font-size: 18px;
+
+    position: absolute;    
+    
+    display: none;    
+}
+#SendBubble {
+    color: white; 	 
+	background: rgb(11, 147, 246);
+    left: 10%;
+    top: 30%;	
+}
+#RecieveBubble {
+    color: black;
+    background: rgb(215, 215, 223);
+    left: 80%;
+    top: 30%;
 }

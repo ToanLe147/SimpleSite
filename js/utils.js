@@ -57,7 +57,7 @@ export function getLoadedImage(id) {
 }
 
 export function handleMovePress(xChange, yChange, player) {
-    console.log("before handle move", player.x, player.y)
+    // console.log("before handle move", player.x, player.y)
 
     const newX = player.x + xChange
     const newY = player.y + yChange
@@ -81,24 +81,24 @@ export function handleMovePress(xChange, yChange, player) {
         player.y = newY;
     }
 
-    console.log("after handle move", player.x, player.y)
+    // console.log("after handle move", player.x, player.y)
 }
 
-function moveAnimation() {
-    if (direction == "right") {
-        frameX = 3
-    } else if (direction == "left") {
-        frameX = 2
-    } else if (this.direction == "up") {
-        frameX = 1
-    } else if (this.direction == "down") {
-        frameX = 0
+function moveAnimation(player) {
+    if (player.direction == "right") {
+        player.frameX = 3
+    } else if (player.direction == "left") {
+        player.frameX = 2
+    } else if (player.direction == "up") {
+        player.frameX = 1
+    } else if (player.direction == "down") {
+        player.frameX = 0
     }
 
-    if (this.frameY < 3) {
-        this.frameY += 1
+    if (player.frameY < 3) {
+        player.frameY += 1
     } else {
-        this.frameY = 0
+        player.frameY = 0
     }
 }
 
@@ -115,40 +115,6 @@ export function move(input, player) {
     else if (input == "Up") {
         handleMovePress(0, -1, player)
     }
-    // moveAnimation()
+    moveAnimation(player)
     // console.log(player.x, player.y)
 }
-
-
-// function animate(){
-//     // Animate
-//     ctx.clearRect(0, 0, canvas.width, canvas.height)
-//     ctx.drawImage(getLoadedImage("CommonRoom"), 0, 0)   
-    
-//     // Action
-//     btn_up.onclick = function () {
-//         move("Up", players[playerId])
-//     }
-//     btn_down.onclick = function () {
-//         move("Down", players[playerId])
-//     }
-//     btn_left.onclick = function () {
-//         move("Left", players[playerId])
-//     }
-//     btn_right.onclick = function () {
-//         move("Right", players[playerId])
-//     }
-//     btn_action.onclick = function () {
-//         move("Right", players[playerId])
-//     }
-
-//     Object.keys(players).forEach(element => {                
-//         console.log(players[element])
-//         ctx.drawImage(getLoadedImage(players[element].charactor),
-//             players[element].frameX * players[element].sw, players[element].frameY * players[element].sh, players[element].sw, players[element].sh,
-//             players[element].x * players[element].width, players[element].y * players[element].height, players[element].width, players[element].height)
-//     });  
-
-//     requestAnimationFrame(animate)
-// }
-// animate()
