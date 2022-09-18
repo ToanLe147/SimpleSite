@@ -1,23 +1,39 @@
 html,
 body {
     background: linear-gradient(180deg, #64BEFF -50%, #6e96ff 69.71%, #2a65ff 150%);
+    /* width: 100%;
+    height: 100%;    */
 }
 
 .game-art {
     image-rendering: pixelated;
+    max-width:100%;
+    height:auto;
 }
 
 #game-container {
-    background-color: white;
+    background-color: linear-gradient(180deg, #64BEFF -50%, #6e96ff 69.71%, #2a65ff 150%);;
     position: relative;
-    width: 816px;
-    height: 384px;
+    /* width: 816px;
+    height: 384px;     */
+    width: 100%;
+    height: 100%;
+
+    /* notSelectable text on button */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #game-canvas {
     background-color: blue;
     position: absolute;    
     border: 3px solid white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .charactor,
@@ -169,7 +185,7 @@ body {
 }
 #RecieveBubble {
     color: black;
-    background: rgb(215, 215, 223);
+    background: rgb(181, 181, 185);
     left: 80%;
     top: 30%;
 }

@@ -46,8 +46,10 @@ let scenes = {
 window.addEventListener('load', function () {
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d')    
-    canvas.width = 816
-    canvas.height = 384
+    // canvas.width = 816
+    // canvas.height = 384    
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
 
     const btn_up = document.getElementById('btn_up')
     const btn_down = document.getElementById('btn_down')
@@ -60,7 +62,8 @@ window.addEventListener('load', function () {
     const chatInput = document.querySelector('.ChatInput')
     const chatSend = document.getElementById('SendBubble')
     const chatRecieve = document.getElementById('RecieveBubble')
-    const chatBox = []
+    let chatBox;
+    let other_chat_content;
 
     const allPlayersRef = ref(database, `players`);
     const allScenesRef = ref(database, `scenes`)
@@ -78,13 +81,15 @@ window.addEventListener('load', function () {
             const init_pose = getRandomSafeSpot();
             const x = init_pose.x
             const y = init_pose.y
+            const charactor_player = randomFromArray(charactors)
 
             set(playerRef, {
                 id: playerId,
                 direction: "down",
-                charactor: randomFromArray(charactors),
+                charactor: charactor_player,
                 chat: false,
                 chat_content: "Hello",
+                chat_recieved: "==== INBOX ===",
                 x,
                 y,
                 width: 48,
@@ -95,14 +100,14 @@ window.addEventListener('load', function () {
                 frameY: 0,
                 scene: "CommonRoom"
             })
-
+            
             //Remove me from Firebase when I diconnect
             onDisconnect(playerRef).remove();
 
             //Begin the game now that we are signed in
             initGame();
         } else {
-            //You're logged out.
+            //You're logged out.            
         }
     })
 
@@ -111,44 +116,57 @@ window.addEventListener('load', function () {
         var errorMessage = error.message;
         // ...
         console.log(errorCode, errorMessage);
-    });
+    });    
 
     // Action
-    btn_up.ontouchend = btn_up.onclick = function () {            
+    btn_up.ontouchend = function () {            
         move("Up", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_down.ontouchend = btn_down.onclick = function () {
+    btn_down.ontouchend = function () {
         move("Down", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_left.ontouchend = btn_left.onclick = function () {
+    btn_left.ontouchend = function () {
         move("Left", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_right.ontouchend = btn_right.onclick = function () {
+    btn_right.ontouchend = function () {
         move("Right", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_chat.ontouchend = btn_chat.onclick = function () {        
+    btn_chat.ontouchend = function () {        
+        chatSend.style.display="none"
+        clearTimeout(chatBox);
         if (!players[playerId].chat) {
             chatInput.style.display="inline"
             players[playerId].chat = true
-        } else {
+        } else {                        
+            if (chatInput.value != "") {
+                players[playerId].chat_recieved = players[playerId].chat_recieved + "\n" + players[playerId].charactor.bold() + ": " + players[playerId].chat_content.italics()
+                players[playerId].chat_content = chatInput.value                
+                chatSend.innerHTML = players[playerId].charactor.bold() + ": " + players[playerId].chat_content.italics()
+                chatSend.style.display="inline"
+                set(playerRef, players[playerId])
+            }
+
             chatInput.style.display="none"                                    
-            players[playerId].chat = false
-        }                           
-    }
-    btn_accept.ontouchend = btn_accept.onclick = function () {
-        if (players[playerId].chat) {            
-            players[playerId].chat_content = chatInput.value
-            set(playerRef, players[playerId])
-            chatSend.innerHTML = players[playerId].chat_content
-            chatSend.style.display="inline"            
+            players[playerId].chat = false            
+        }
+        // Remove message after 3 second
+        if (chatSend.style.display=="inline") {
+            chatBox = setTimeout(()=>{
+                chatSend.style.display="none"
+                players[playerId].chat_sent = players[playerId].chat_content
+                set(playerRef, players[playerId])
+            }, 3000)
         }
     }
-    btn_deny.ontouchend = btn_deny.onclick = function () {
-        if (players[playerId].chat) {                        
+    btn_accept.ontouchend = function () {
+        console.log("1")        
+    }
+    btn_deny.ontouchend = function () {
+        if (players[playerId].chat || chatSend.style.display=="inline") {       
             chatSend.innerHTML = "..."
             chatSend.style.display="none"
             chatInput.style.display="none"
@@ -163,25 +181,23 @@ window.addEventListener('load', function () {
             players = snapshot.val() || {};
             // Animate
             ctx.clearRect(0, 0, canvas.width, canvas.height)
-            ctx.drawImage(getLoadedImage("CommonRoom"), 0, 0)                        
-            
-            // console.log("Liet ke")
+            ctx.drawImage(getLoadedImage("CommonRoom"), 0, 0)                                                
 
+            
             Object.keys(players).forEach(element => {                
-                // console.log(players[element])
+                // console.log(players[element])                
                 ctx.drawImage(getLoadedImage(players[element].charactor),
                     players[element].frameX * players[element].sw, players[element].frameY * players[element].sh, players[element].sw, players[element].sh,
                     players[element].x * players[element].width, players[element].y * players[element].height, players[element].width, players[element].height)
                 
                 // if (element != playerId) {
-                //     if (players[element].chat) {            
-                //         chatRecieve.innerHTML = players[element].charactor + ": " + players[element].chat_content
-                //         chatRecieve.style.display="inline"                        
+                //     if (players[element].chat_sent != players[element].chat_content) {            
+                //         other_chat_content = 
+                //         chatRecieve.innerHTML = players[element].charactor.bold() + ": " + players[element].chat_content.italics()
+                //         chatRecieve.style.display="inline"
                 //     }
                 // }                
-            });
-            
-            
+            });                        
         })
 
         onChildAdded(allPlayersRef, (snapshot) => {
