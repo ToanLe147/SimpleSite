@@ -144,7 +144,7 @@ window.addEventListener('load', function () {
             players[playerId].chat_content = chatInput.value
             chatSend.innerHTML = players[playerId].chat_content
             chatSend.style.display="inline"
-            update(playerRef, players[playerId])
+            set(playerRef, players[playerId])
         }
     }
     btn_deny.onclick = function () {
