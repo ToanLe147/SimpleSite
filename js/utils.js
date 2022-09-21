@@ -118,3 +118,54 @@ export function move(input, player) {
     moveAnimation(player)
     // console.log(player.x, player.y)
 }
+
+// export function chatBubble(ctx, player) {
+//     // Shadow
+//     ctx.fillStyle = "black"
+//     ctx.font = "bold 30px Source Sans Pro"
+//     ctx.fillText(`${player.chat_content}`, player.x * player.width, player.y * player.height - 8)
+//     // Message
+//     ctx.fillStyle = "white"
+//     ctx.font = "bold 30px Source Sans Pro"
+//     ctx.fillText(`${player.chat_content}`, player.x * player.width, player.y * player.height - 10)    
+// }
+
+export function chatBubble(ctx, player, areYou=false) {
+    let color = "black"
+    let background = "rgb(181, 181, 185)"
+    if (areYou) {
+        color = "white"
+        background = "rgb(11, 147, 246)"
+    }    
+    const svgCode = `
+    <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="0" y="0" width="120" height="120">
+            <style>
+            p {
+                max-width: 120px;
+                word-wrap: break-word;
+                margin-bottom: 12px;
+                line-height: 24px;    
+                padding: 10px 10px;
+                border-radius: 25px;                
+                font-family: sans-serif;
+                font-size: 15px;
+                color: ${color}; 	 
+	            background: ${background};
+            }
+            </style>
+            <div xmlns="http://www.w3.org/1999/xhtml">
+                <p>    
+                    ${player.chat_content}
+                </p>
+            </div>
+        </foreignObject>
+    </svg>`;
+    const svgCodeEncoded = svgCode.replace(/\n/g, '').replace(/"/g, "'");
+    const img = document.createElement('img');
+    img.onload = () => {        
+        // Draw the image to the canvas
+        ctx.drawImage(img, player.x * player.width - 120, player.y * player.height - 50);
+    };
+    img.src = `data:image/svg+xml,${svgCodeEncoded}`;
+}

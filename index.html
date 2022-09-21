@@ -3,7 +3,7 @@
 <head>
     <title>Public Space</title>
     <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css" type="text/css">
@@ -22,20 +22,20 @@
     <div id="game-container">
         <canvas id="game-canvas" class="game-art"></canvas>                  
 
-        <button id="btn_up" class="moveBtn">&#9650;</button>     
-        <button id="btn_down" class="moveBtn">&#9660;</button>     
-        <button id="btn_left" class="moveBtn">&#9664;</button>     
-        <button id="btn_right" class="moveBtn">&#9654;</button>
+        <div class="mobile-device">
+            <button id="btn_up" class="moveBtn">&#9650;</button>     
+            <button id="btn_down" class="moveBtn">&#9660;</button>     
+            <button id="btn_left" class="moveBtn">&#9664;</button>     
+            <button id="btn_right" class="moveBtn">&#9654;</button>
 
-        <button id="btn_exit" onclick="myFunction()" class="actionBtn">&#10006;</button>                  
-        <button id="btn_chat" class="actionBtn">&#x1F4AC;</button>
-        <button id="btn_accept" class="actionBtn">&#10004;</button>
-        <button id="btn_deny" class="actionBtn">&#10008;</button>
+            <button id="btn_exit" onclick="myFunction()" class="actionBtn">&#10006;</button>                  
+            <button id="btn_chat" class="actionBtn">&#x1F4AC;</button>
+            <button id="btn_accept" class="actionBtn">&#10004;</button>
+            <button id="btn_deny" class="actionBtn">&#10008;</button>
+        </div>
 
         <!-- <button id="btn_fullscreen" class="actionBtn">&#10006;</button> -->
-                
-        <p class="ChatBubble" id="SendBubble">...</p>
-        <p class="ChatBubble" id="RecieveBubble">...</p>
+                        
         <input class="ChatInput" type="text" >
 
     </div>            

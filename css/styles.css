@@ -1,6 +1,7 @@
 html,
 body {
     background: linear-gradient(180deg, #64BEFF -50%, #6e96ff 69.71%, #2a65ff 150%);
+    font-family: 'Source Sans Pro', sans-serif;
     /* width: 100%;
     height: 100%;    */
 }
@@ -12,10 +13,8 @@ body {
 }
 
 #game-container {
-    background-color: linear-gradient(180deg, #64BEFF -50%, #6e96ff 69.71%, #2a65ff 150%);;
-    position: relative;
-    /* width: 816px;
-    height: 384px;     */
+    background-color: linear-gradient(180deg, #64BEFF -50%, #6e96ff 69.71%, #2a65ff 150%);
+    position: relative;    
     width: 100%;
     height: 100%;
 
@@ -28,7 +27,7 @@ body {
 }
 
 #game-canvas {
-    background-color: blue;
+    background-color: linear-gradient(180deg, #64BEFF -50%, #6e96ff 69.71%, #2a65ff 150%);
     position: absolute;    
     border: 3px solid white;
     top: 50%;
@@ -99,12 +98,7 @@ body {
     transition: all 0.07s ease;
     border-radius: 70%;
     position: absolute;
-    /* notSelectable text on button */
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;    
+    touch-action: manipulation;    
 }
 .actionBtn:not {
     margin-top: 10px;
@@ -128,12 +122,7 @@ body {
     transition: all 0.07s ease;
     border-radius: 70%;
     position: absolute;
-    /* notSelectable text on button */
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;    
+    touch-action: manipulation;      
 }
 .moveBtn:active {
     background-color: #e33939;
@@ -158,34 +147,8 @@ body {
     position: absolute;
     left: 30%;
     top: 85%;
+
+    touch-action: manipulation;
     
     display: none;    
-}
-
-.ChatBubble {		        
-    max-width: 255px;
-    word-wrap: break-word;
-    margin-bottom: 12px;
-    line-height: 24px;    
-    padding: 10px 20px;
-    border-radius: 25px;
-    
-    font-family: sans-serif;
-    font-size: 18px;
-
-    position: absolute;    
-    
-    display: none;    
-}
-#SendBubble {
-    color: white; 	 
-	background: rgb(11, 147, 246);
-    left: 10%;
-    top: 30%;	
-}
-#RecieveBubble {
-    color: black;
-    background: rgb(181, 181, 185);
-    left: 80%;
-    top: 30%;
 }

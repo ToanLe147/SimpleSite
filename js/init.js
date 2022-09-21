@@ -2,7 +2,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js';
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 import { getDatabase, ref, set, onDisconnect, onChildAdded, onChildRemoved, onValue, remove, update } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
-import { move, getRandomSafeSpot, randomFromArray, getLoadedImage,  } from './utils.js'
+import { move, getRandomSafeSpot, randomFromArray, getLoadedImage, chatBubble, } from './utils.js'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -44,6 +44,14 @@ let scenes = {
 }
 
 window.addEventListener('load', function () {
+    let isMobile = window.matchMedia("(pointer:coarse)").matches;
+    if (isMobile)    
+    {
+        document.querySelector('.mobile-device').style.display="inline";        
+    } else {
+        document.querySelector('.mobile-device').style.display="none";
+    }
+
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d')    
     // canvas.width = 816
@@ -89,7 +97,7 @@ window.addEventListener('load', function () {
                 charactor: charactor_player,
                 chat: false,
                 chat_content: "Hello",
-                chat_recieved: "==== INBOX ===",
+                chat_show: false,
                 x,
                 y,
                 width: 48,
@@ -136,17 +144,17 @@ window.addEventListener('load', function () {
         set(playerRef, players[playerId]);
     }
     btn_chat.ontouchend = function () {        
-        chatSend.style.display="none"
+        // chatSend.style.display="none"
         clearTimeout(chatBox);
         if (!players[playerId].chat) {
             chatInput.style.display="inline"
             players[playerId].chat = true
         } else {                        
             if (chatInput.value != "") {
-                players[playerId].chat_recieved = players[playerId].chat_recieved + "\n" + players[playerId].charactor.bold() + ": " + players[playerId].chat_content.italics()
-                players[playerId].chat_content = chatInput.value                
-                chatSend.innerHTML = players[playerId].charactor.bold() + ": " + players[playerId].chat_content.italics()
-                chatSend.style.display="inline"
+                players[playerId].chat_content = chatInput.value
+                players[playerId].chat_show = true;
+                // chatSend.innerHTML = players[playerId].charactor.bold() + ": " + players[playerId].chat_content.italics()                
+                // chatSend.style.display="inline"                
                 set(playerRef, players[playerId])
             }
 
@@ -154,24 +162,25 @@ window.addEventListener('load', function () {
             players[playerId].chat = false            
         }
         // Remove message after 3 second
-        if (chatSend.style.display=="inline") {
+        // if (chatSend.style.display=="inline") {
+        if (players[playerId].chat_show) {
             chatBox = setTimeout(()=>{
-                chatSend.style.display="none"
-                players[playerId].chat_sent = players[playerId].chat_content
+                // chatSend.style.display="none"
+                players[playerId].chat_show = false
                 set(playerRef, players[playerId])
-            }, 3000)
+            }, 4000)
         }
     }
     btn_accept.ontouchend = function () {
         console.log("1")        
     }
     btn_deny.ontouchend = function () {
-        if (players[playerId].chat || chatSend.style.display=="inline") {       
-            chatSend.innerHTML = "..."
-            chatSend.style.display="none"
-            chatInput.style.display="none"
-            players[playerId].chat = false
-        }
+        // if (players[playerId].chat || chatSend.style.display=="inline") {       
+        //     chatSend.innerHTML = "..."
+        //     chatSend.style.display="none"
+        //     chatInput.style.display="none"
+        //     players[playerId].chat = false
+        // }
     } 
 
     function initGame() {                                       
@@ -182,21 +191,20 @@ window.addEventListener('load', function () {
             // Animate
             ctx.clearRect(0, 0, canvas.width, canvas.height)
             ctx.drawImage(getLoadedImage("CommonRoom"), 0, 0)                                                
-
             
             Object.keys(players).forEach(element => {                
                 // console.log(players[element])                
                 ctx.drawImage(getLoadedImage(players[element].charactor),
                     players[element].frameX * players[element].sw, players[element].frameY * players[element].sh, players[element].sw, players[element].sh,
                     players[element].x * players[element].width, players[element].y * players[element].height, players[element].width, players[element].height)
-                
-                // if (element != playerId) {
-                //     if (players[element].chat_sent != players[element].chat_content) {            
-                //         other_chat_content = 
-                //         chatRecieve.innerHTML = players[element].charactor.bold() + ": " + players[element].chat_content.italics()
-                //         chatRecieve.style.display="inline"
-                //     }
-                // }                
+                                                    
+                if (players[element].chat_show) {
+                    if (element == playerId) {
+                        chatBubble(ctx, players[element], true)
+                    } else {
+                        chatBubble(ctx, players[element])
+                    }           
+                }
             });                        
         })
 
