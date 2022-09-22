@@ -44,7 +44,7 @@ let scenes = {
 }
 
 window.addEventListener('load', function () {
-    let isMobile = window.matchMedia("(pointer:coarse)").matches;
+    let isMobile = window.matchMedia("(any-pointer:coarse)").matches;
     if (isMobile)    
     {
         document.querySelector('.mobile-device').style.display="inline";        
@@ -67,11 +67,8 @@ window.addEventListener('load', function () {
     const btn_accept = document.getElementById('btn_accept')
     const btn_deny = document.getElementById('btn_deny')
 
-    const chatInput = document.querySelector('.ChatInput')
-    const chatSend = document.getElementById('SendBubble')
-    const chatRecieve = document.getElementById('RecieveBubble')
-    let chatBox;
-    let other_chat_content;
+    const chatInput = document.querySelector('.ChatInput')    
+    let chatBox;    
 
     const allPlayersRef = ref(database, `players`);
     const allScenesRef = ref(database, `scenes`)
@@ -143,33 +140,29 @@ window.addEventListener('load', function () {
         move("Right", players[playerId])
         set(playerRef, players[playerId]);
     }
-    btn_chat.ontouchend = function () {        
-        // chatSend.style.display="none"
+    btn_chat.ontouchend = function () {                
         clearTimeout(chatBox);
         if (!players[playerId].chat) {
             chatInput.style.display="inline"
             players[playerId].chat = true
-        } else {                        
+        } else {                                    
             if (chatInput.value != "") {
                 players[playerId].chat_content = chatInput.value
-                players[playerId].chat_show = true;
-                // chatSend.innerHTML = players[playerId].charactor.bold() + ": " + players[playerId].chat_content.italics()                
-                // chatSend.style.display="inline"                
+                players[playerId].chat_show = true;                            
                 set(playerRef, players[playerId])
             }
 
             chatInput.style.display="none"                                    
             players[playerId].chat = false            
         }
-        // Remove message after 3 second
-        // if (chatSend.style.display=="inline") {
+        // Remove message after 3 second        
         if (players[playerId].chat_show) {
-            chatBox = setTimeout(()=>{
-                // chatSend.style.display="none"
-                players[playerId].chat_show = false
+            chatBox = setTimeout(()=>{                
+                players[playerId].chat_show = false                
                 set(playerRef, players[playerId])
             }, 4000)
         }
+        chatInput.value = ""
     }
     btn_accept.ontouchend = function () {
         console.log("1")        

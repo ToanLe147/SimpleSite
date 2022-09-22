@@ -119,17 +119,6 @@ export function move(input, player) {
     // console.log(player.x, player.y)
 }
 
-// export function chatBubble(ctx, player) {
-//     // Shadow
-//     ctx.fillStyle = "black"
-//     ctx.font = "bold 30px Source Sans Pro"
-//     ctx.fillText(`${player.chat_content}`, player.x * player.width, player.y * player.height - 8)
-//     // Message
-//     ctx.fillStyle = "white"
-//     ctx.font = "bold 30px Source Sans Pro"
-//     ctx.fillText(`${player.chat_content}`, player.x * player.width, player.y * player.height - 10)    
-// }
-
 export function chatBubble(ctx, player, areYou=false) {
     let color = "black"
     let background = "rgb(181, 181, 185)"
