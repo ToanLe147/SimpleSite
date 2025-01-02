@@ -45,12 +45,13 @@ let scenes = {
 
 window.addEventListener('load', function () {
     let isMobile = window.matchMedia("(any-pointer:coarse)").matches;
-    if (isMobile)    
-    {
-        document.querySelector('.mobile-device').style.display="inline";        
-    } else {
-        document.querySelector('.mobile-device').style.display="none";
-    }
+    document.querySelector('.mobile-device').style.display="inline"; 
+    // if (isMobile)    
+    // {
+    //     document.querySelector('.mobile-device').style.display="inline";        
+    // } else {
+    //     document.querySelector('.mobile-device').style.display="none";
+    // }
 
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d')    
