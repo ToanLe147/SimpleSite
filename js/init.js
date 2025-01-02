@@ -54,10 +54,10 @@ window.addEventListener('load', function () {
 
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d')    
-    // canvas.width = 816
-    // canvas.height = 384    
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
+    canvas.width = 816
+    canvas.height = 384    
+    // canvas.width = window.innerWidth
+    // canvas.height = window.innerHeight
 
     const btn_up = document.getElementById('btn_up')
     const btn_down = document.getElementById('btn_down')
@@ -164,17 +164,17 @@ window.addEventListener('load', function () {
         }
         chatInput.value = ""
     }
-    btn_accept.ontouchend = function () {
-        console.log("1")        
-    }
-    btn_deny.ontouchend = function () {
+    // btn_accept.ontouchend = function () {
+    //     console.log("1")        
+    // }
+    // btn_deny.ontouchend = function () {
         // if (players[playerId].chat || chatSend.style.display=="inline") {       
         //     chatSend.innerHTML = "..."
         //     chatSend.style.display="none"
         //     chatInput.style.display="none"
         //     players[playerId].chat = false
         // }
-    } 
+    // } 
 
     function initGame() {                                       
 
