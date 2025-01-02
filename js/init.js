@@ -122,7 +122,9 @@ window.addEventListener('load', function () {
     });    
 
     // Action
-    btn_up.ontouchend = function () {            
+    if (isMobile)    
+    {
+        btn_up.ontouchend = function () {            
         move("Up", players[playerId])
         set(playerRef, players[playerId]);
     }
@@ -172,7 +174,61 @@ window.addEventListener('load', function () {
         //     chatInput.style.display="none"
         //     players[playerId].chat = false
         // }
+    // }         
+    } else {
+        btn_up.onclick = function () {            
+        move("Up", players[playerId])
+        set(playerRef, players[playerId]);
+    }
+    btn_down.onclick = function () {
+        move("Down", players[playerId])
+        set(playerRef, players[playerId]);
+    }
+    btn_left.onclick = function () {
+        move("Left", players[playerId])
+        set(playerRef, players[playerId]);
+    }
+    btn_right.onclick = function () {
+        move("Right", players[playerId])
+        set(playerRef, players[playerId]);
+    }
+    btn_chat.onclick = function () {                
+        clearTimeout(chatBox);
+        if (!players[playerId].chat) {
+            chatInput.style.display="inline"
+            players[playerId].chat = true
+        } else {                                    
+            if (chatInput.value != "") {
+                players[playerId].chat_content = chatInput.value
+                players[playerId].chat_show = true;                            
+                set(playerRef, players[playerId])
+            }
+
+            chatInput.style.display="none"                                    
+            players[playerId].chat = false            
+        }
+        // Remove message after 3 second        
+        if (players[playerId].chat_show) {
+            chatBox = setTimeout(()=>{                
+                players[playerId].chat_show = false                
+                set(playerRef, players[playerId])
+            }, 4000)
+        }
+        chatInput.value = ""
+    }
+    // btn_accept.onclick = function () {
+    //     console.log("1")        
+    // }
+    // btn_deny.onclick = function () {
+        // if (players[playerId].chat || chatSend.style.display=="inline") {       
+        //     chatSend.innerHTML = "..."
+        //     chatSend.style.display="none"
+        //     chatInput.style.display="none"
+        //     players[playerId].chat = false
+        // }
     // } 
+    }
+    
 
     function initGame() {                                       
 
