@@ -122,73 +122,23 @@ window.addEventListener('load', function () {
     });    
 
     // Action
-    if (isMobile)    
-    {
-        btn_up.ontouchend = function () {            
-        move("Up", players[playerId])
-        set(playerRef, players[playerId]);
-    }
-    btn_down.ontouchend = function () {
-        move("Down", players[playerId])
-        set(playerRef, players[playerId]);
-    }
-    btn_left.ontouchend = function () {
-        move("Left", players[playerId])
-        set(playerRef, players[playerId]);
-    }
-    btn_right.ontouchend = function () {
-        move("Right", players[playerId])
-        set(playerRef, players[playerId]);
-    }
-    btn_chat.ontouchend = function () {                
-        clearTimeout(chatBox);
-        if (!players[playerId].chat) {
-            chatInput.style.display="inline"
-            players[playerId].chat = true
-        } else {                                    
-            if (chatInput.value != "") {
-                players[playerId].chat_content = chatInput.value
-                players[playerId].chat_show = true;                            
-                set(playerRef, players[playerId])
-            }
-
-            chatInput.style.display="none"                                    
-            players[playerId].chat = false            
-        }
-        // Remove message after 3 second        
-        if (players[playerId].chat_show) {
-            chatBox = setTimeout(()=>{                
-                players[playerId].chat_show = false                
-                set(playerRef, players[playerId])
-            }, 4000)
-        }
-        chatInput.value = ""
-    }
-    // btn_accept.ontouchend = function () {
-    //     console.log("1")        
-    // }
-    // btn_deny.ontouchend = function () {
-        // if (players[playerId].chat || chatSend.style.display=="inline") {       
-        //     chatSend.innerHTML = "..."
-        //     chatSend.style.display="none"
-        //     chatInput.style.display="none"
-        //     players[playerId].chat = false
-        // }
-    // }         
-    } else {
-        btn_up.onclick = function () {            
+    btn_up.onclick = function () {
+        console.log("Up")
         move("Up", players[playerId])
         set(playerRef, players[playerId]);
     }
     btn_down.onclick = function () {
+        console.log("Down")
         move("Down", players[playerId])
         set(playerRef, players[playerId]);
     }
     btn_left.onclick = function () {
+        console.log("Left")
         move("Left", players[playerId])
         set(playerRef, players[playerId]);
     }
     btn_right.onclick = function () {
+        console.log("Right")
         move("Right", players[playerId])
         set(playerRef, players[playerId]);
     }
@@ -227,7 +177,7 @@ window.addEventListener('load', function () {
         //     players[playerId].chat = false
         // }
     // } 
-    }
+    
     
 
     function initGame() {                                       
